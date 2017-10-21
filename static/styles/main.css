@@ -1,3 +1,7 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -11,7 +15,6 @@ div#header-bar {
   left: 0;
   background-color: rgba(0,0,0,0.7);
   z-index: 1;
-  width: 100%;
   text-align: center;
   padding: 1.75vh;
 }
@@ -43,12 +46,13 @@ div.feed-box {
   padding: 1vw;
   border-radius: 10px;
   display: inline-block;
+  margin: 0.5vw;
 }
 h3.feed-title {
   margin: 1vw 1vh;
   margin-top: 0;
 }
-div.feed-details {
+div.feed-content {
   background-color: rgba(0,0,0,0.21);
   padding: 1vw;
   border-radius: 5px;

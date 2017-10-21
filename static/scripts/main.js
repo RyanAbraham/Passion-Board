@@ -1,12 +1,15 @@
+let lastFeedId = 0;
 
 class FeedObject {
   constructor(title, endpoint, callbackMethod) {
     this.title = title;
     this.endpoint = endpoint;
     this.callbackMethod = callbackMethod;
+    this.id = lastFeedId;
+    lastFeedId++;
   }
   content() {
-    return this.callbackMethod(this.endpoint);
+    return this.callbackMethod(this.endpoint, store.getCurrentMood());
   }
 }
 
@@ -19,11 +22,11 @@ class Mood {
 }
 
 const feeds = [
-  new FeedObject("Reddit Analysis", "/reddit/", function(endpoint_args) {
-    return "<h1> wholesome memes </h1>";
+  new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
+    return `<h1> ${moodObject.name} memes </h1>`;
   }),
-  new FeedObject("Azure Analysis", "/azure/", function(endpoint_args) {
-    return "<h1> azure maymays </h1>";
+  new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
+    return `<h1> azure ${moodObject.name} memes </h1>`;
   })
 ];
 
@@ -41,8 +44,11 @@ let store = {
     moods: moods,
     feeds: feeds
   },
+  getCurrentMood() {
+    return this.state.currentMood;
+  },
   setCurrentMood(mood) {
-    if (this.debug) console.log("Setting current mood to " + mood);
+    if (this.debug) console.log("Setting current mood to " + mood.name);
     this.state.currentMood = mood;
   },
   setCurrentMoodByIndex(index) {
@@ -101,10 +107,13 @@ Vue.component('feed-box', {
   props: ['feedObject'],
   template: `<div class="feed-box">
                <h3 class="feed-title"> {{ feedObject.title }} </h3>
-               <div class="feed-content">
-                 <feed-content :content="computedContent"></feed-content>
+               <div class="feed-content" v-html="computedContent">
+                 {{ computedContent }}
                </div>
              </div>`,
+  data: function() {
+    return { store: store }
+  },
   computed: {
     computedContent: function() {
       return this.feedObject.content();
@@ -112,16 +121,8 @@ Vue.component('feed-box', {
   }
 });
 
-Vue.component('feed-content', {
-  props: ["content"],
-  template: `<div class="fake-feed-content" v-html="rawHtml"></div>`,
-  data: function() {
-      return { rawHtml: this.content }
-  }
-});
-
 Vue.component('feeds', {
-  template: `<feed-box :feedObject="store.state.feeds[0]"></feed-box>`,
+  template: `<div><feed-box v-for="feed in store.state.feeds" :feedObject="feed" :key="feed.id"></feed-box></div>`,
   data: function() {
     return { store: store };
   }
