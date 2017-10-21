@@ -2,7 +2,6 @@
 
 import http.client, urllib.parse, json
 
-subscriptionKey = "946eea0619524c3f8095ea544f363ff8"
 host = "api.cognitive.microsoft.com"
 path = "/bing/v7.0/search"
 filter = "&responseFilter=images" #search filters
@@ -29,7 +28,7 @@ happy_dict = {
 def SadWebSearch(search):
     "Performs a Bing Web search when user is sad, and returns the results"
 
-    headers = {'Ocp-Apim-Subscription-Key': subscriptionKey}
+    headers = {'Ocp-Apim-Subscription-Key': config.azure_api_key}
     conn = http.client.HTTPSConnection(host)
     query = urllib.parse.quote(search)
     conn.request("GET", path + "?q=" + query + filter, headers=headers)
@@ -51,7 +50,7 @@ def IsSad(dict):
 #def HappyWebSearch(search):
 
 def main():
-    if len(subscriptionKey) == 32:
+    if len(config.azure_api_key) == 32:
         print('Searching the Web for: ', term)
 
         IsSad(sad_dict)
