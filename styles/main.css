@@ -1,0 +1,53 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+div#header-bar {
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.85);
+  z-index: 1;
+  height: 5vh;
+  width: 100%;
+  text-align: center;
+}
+
+div#header-bar>p {
+  color: rgba(255,255,255,0.8);
+}
+
+svg#gradient {
+  position:fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+div.main-content {
+  position: relative;
+  z-index: 1;
+  padding: 1vw;
+}
+
+div h3, div h4 {
+  margin: 0;
+  font-weight: normal;
+}
+
+div.feed-box {
+  background-color: rgba(0,0,0,0.2);
+  padding: 1vw;
+  border-radius: 10px;
+}
+h3.feed-title {
+  margin: 1vw 1vh;
+  margin-top: 0;
+}
+div.feed-details {
+  background-color: rgba(0,0,0,0.21);
+  padding: 1vw;
+  border-radius: 5px;
+}

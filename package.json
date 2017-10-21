@@ -1,0 +1,11 @@
+{
+  "name": "Sentient-Dashboard",
+  "version": "0.0.0",
+  "description": "It stares into your soul",
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
