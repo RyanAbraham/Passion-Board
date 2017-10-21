@@ -6,10 +6,10 @@ from collections import Counter
 
 indicoio.config.api_key = config.indico_api_key
 MAX_POSTS = 10
-MAX_COMMENTS = 5
+MAX_COMMENTS = 1
 submissions = {}
 
-def fetchposts(emotion):
+def fetchposts(target_emotion):
     return_string = ""
     reddit = praw.Reddit(client_id='Us-byLFTjQmSJQ',
                          client_secret=config.reddit_client_secret,
@@ -32,7 +32,7 @@ def fetchposts(emotion):
         submissions[submission.title] = emotion_sum
 
     for sub in submissions:
-        submissions[sub] = submissions[sub][emotion]
+        submissions[sub] = submissions[sub][target_emotion]
 
     for post in reversed(sorted(submissions, key=submissions.get)):
         return_string += post + "\n<br />"

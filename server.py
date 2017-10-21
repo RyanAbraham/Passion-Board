@@ -7,10 +7,9 @@ app = Flask(__name__)
 def index():
     return "Hello world"
 
-@app.route("/reddit")
-def reddit():
-    return red.fetchposts('happy')
+@app.route("/reddit/<emotion>")
+def reddit(emotion):
+    return red.fetchposts(emotion)
 
 if __name__ == "__main__":
-    print("The magic happens at port 5000")
     app.run()
