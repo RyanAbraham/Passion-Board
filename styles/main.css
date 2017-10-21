@@ -2,21 +2,22 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  color: rgba(255,255,255,0.8);
 }
 
 div#header-bar {
   position: relative;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0,0,0,0.7);
   z-index: 1;
-  height: 5vh;
   width: 100%;
   text-align: center;
+  padding: 1.75vh;
 }
 
 div#header-bar>p {
-  color: rgba(255,255,255,0.8);
+  margin: 0;
 }
 
 svg#gradient {
@@ -41,6 +42,7 @@ div.feed-box {
   background-color: rgba(0,0,0,0.2);
   padding: 1vw;
   border-radius: 10px;
+  display: inline-block;
 }
 h3.feed-title {
   margin: 1vw 1vh;
