@@ -7,9 +7,9 @@ app = Flask(__name__)
 def index():
     return app.send_static_file("index.html")
 
-@app.route("/reddit/<emotion>")
-def reddit(emotion):
-    return red.fetchposts(emotion)
+@app.route("/reddit/<subreddit>/<emotion>")
+def reddit(subreddit, emotion):
+    return red.fetchposts(subreddit, emotion)
 
 @app.route("/scripts/main.js")
 def mainjs():

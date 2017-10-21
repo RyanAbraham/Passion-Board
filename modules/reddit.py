@@ -6,9 +6,9 @@ import modules.config as config
 from collections import Counter
 
 indicoio.config.api_key = config.indico_api_key
-MAX_POSTS, MAX_COMMENTS = 10, 1
+MAX_POSTS, MAX_COMMENTS = 10, 2
 
-def fetchposts(target_emotion):
+def fetchposts(subreddit, target_emotion):
     submissions = {}
     return_data = {}
     return_data['submissions'] = []
@@ -17,7 +17,7 @@ def fetchposts(target_emotion):
                          client_secret=config.reddit_client_secret,
                          user_agent='python:com.hackharvard.sentient-dashboard:v1.0')
 
-    for submission in reddit.subreddit('wholesomememes').hot(limit=MAX_POSTS):
+    for submission in reddit.subreddit(subreddit).hot(limit=MAX_POSTS):
         emotion_sum = Counter(indicoio.emotion(submission.title))
         for counter, comment in enumerate(submission.comments):
             if counter >= MAX_COMMENTS:
