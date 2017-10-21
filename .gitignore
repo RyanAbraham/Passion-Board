@@ -5,6 +5,9 @@ node_modules/*
 package-lock.json
 
 ## Python
+# API keys and client secrets
+config.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
