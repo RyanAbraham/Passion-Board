@@ -1,16 +1,18 @@
 # Delivers reddit posts from a subreddit that matches a chosen emotion
 import indicoio
 import praw
+import json
 import modules.config as config
 from collections import Counter
 
 indicoio.config.api_key = config.indico_api_key
-MAX_POSTS = 10
-MAX_COMMENTS = 1
-submissions = {}
+MAX_POSTS, MAX_COMMENTS = 10, 1
 
 def fetchposts(target_emotion):
-    return_string = ""
+    submissions = {}
+    return_data = {}
+    return_data['submissions'] = []
+
     reddit = praw.Reddit(client_id='Us-byLFTjQmSJQ',
                          client_secret=config.reddit_client_secret,
                          user_agent='python:com.hackharvard.sentient-dashboard:v1.0')
@@ -27,15 +29,12 @@ def fetchposts(target_emotion):
         # Average the emotion values
         for emotion in emotion_sum:
             emotion_sum[emotion] /= counter+1
-        #print("\nTitle: " + submission.title + "\nEmotion: ", end='')
-        #print(emotion_sum)
-        submissions[submission.title] = emotion_sum
+        submissions[submission.title] = [emotion_sum, submission.shortlink]
 
     for sub in submissions:
-        submissions[sub] = submissions[sub][target_emotion]
+        submissions[sub][0] = submissions[sub][0][target_emotion]
 
     for post in reversed(sorted(submissions, key=submissions.get)):
-        return_string += post + "\n<br />"
-        return_string += str(submissions[post]) + "\n<br />"
-    return return_string
+        return_data['submissions'].append({'title': post, 'score': submissions[post][0], 'shortlink': submissions[post][1]})
+    return json.dumps(return_data)
 
