@@ -1,3 +1,5 @@
+# Utilizes Azure Cloud WebSearch API to generate n number of URL's for images that have positive/happy connotations.
+
 import http.client, urllib.parse, json
 
 subscriptionKey = "946eea0619524c3f8095ea544f363ff8"
