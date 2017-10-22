@@ -25,7 +25,7 @@ def fetch_posts(subreddit, target_emotion):
         for counter, comment in enumerate(submission.comments):
             if counter >= MAX_COMMENTS:
                 break
-            if comment != "[removed]": # Ignore removed comments
+            if comment.body != "[removed]" and "http" not in comment.body: # Ignore removed comments
                 emotion_sum.update(Counter(indicoio.emotion(comment.body)))
             else:
                 counter -= 1
