@@ -1,6 +1,6 @@
 # to install tweepy -> pip install tweepy
 
-import tweepy 
+import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
@@ -15,7 +15,7 @@ import indicoio
 # indicoio.config.api_key = '...'
 # search_term = "happiness"
 
-def getHappyTexts():
+def get_tweets():
 	index = 0
 	search_results = {}
 
@@ -32,9 +32,8 @@ def getHappyTexts():
 
 	# uses indico's emotion analyzer to return any "happy" tweets as text
 	for tweet in search_results:
-
-	    if (indicoio.emotion(tweet.text).get('joy') > 0.55):
-	    	index += 1
-	    	search_results[index] = tweet.text
+            if (indicoio.emotion(tweet.text).get('joy') > 0.55):
+                index += 1
+                search_results[index] = tweet.text
 
 	return json.dumps(search_results)
