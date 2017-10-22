@@ -42,7 +42,7 @@ def get_image_uri(emotion):
     else:
         print("Invalid Bing Search API subscription key!")
         print("Please paste yours into the source code.")
-    if(search_results != []):
+    if(search_results != {}):
         return json.dumps({'uri': random.choice(search_results)})
     else:
         return json.dumps({})

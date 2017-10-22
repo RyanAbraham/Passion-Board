@@ -6,12 +6,17 @@ import modules.config as config
 from collections import Counter
 
 indicoio.config.api_key = config.indico_api_key
-MAX_POSTS, MAX_COMMENTS = 10, 5
+MAX_POSTS, MAX_COMMENTS = 3, 0
 
 def fetch_posts(subreddit, target_emotion):
     submissions = {}
     return_data = {}
     return_data['submissions'] = []
+
+    if(target_emotion=="joy"):
+        subreddit = "happy"
+    elif(target_emotion=="sadness"):
+        subreddit = "worldnews"
 
     # Connect to Reddit via PRAW
     reddit = praw.Reddit(client_id='Us-byLFTjQmSJQ',

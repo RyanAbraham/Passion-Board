@@ -64,13 +64,13 @@ const ERROR_TEMPLATE = `<p> The analysis server could not be reached at this tim
 const SPOTIFY_TEMPLATE = `<iframe src="https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWXLeA8Omikj7" height="80px" frameborder="0" allowtransparency="true"></iframe>`;
 
 const feeds = [
-  new FeedObject("Reddit Analysis", "reddit", "/reddit/", function(moodObject) {
+  new FeedObject("Reddit Feed", "reddit", "/reddit/", function(moodObject) {
     axios.get(this.endpoint + "all/" + moodObject.codename)
       .then(response => {
         let firstSubmission = response.data["submissions"][0];
         let submissionTitle = firstSubmission["title"];
         let submissionLink = firstSubmission["shortlink"];
-        this.results = `<h3 class="reddit-submission-title"><a href="${submissionLink}">${submissionTitle}</a></h3>`;
+        this.results = `<h3 class="reddit-submission-title"><a href="${submissionLink}">${submissionTitle}</a></h3><br /><img src="https://i.imgur.com/QYtPSU7.png" alt="Reddit Logo" />`;
       })
       .catch(error => {
         console.log(error);
@@ -78,7 +78,7 @@ const feeds = [
       });
       return this.results;
   }),
-  new FeedObject("Azure Analysis", "azure", "/azure/", function(moodObject) {
+  new FeedObject("Azure Image Gallery", "azure", "/azure/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         let imageUrl = response.data["uri"];
@@ -90,7 +90,7 @@ const feeds = [
       });
     return this.results;
   }),
-  new FeedObject("Spotify Analysis", "spotify", "/spotify/", function(moodObject) {
+  new FeedObject("Spotify Selection", "spotify", "/spotify/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         let responseUri = response.data["uri"];
@@ -102,6 +102,20 @@ const feeds = [
       });
     return this.results;
   }),
+  new FeedObject("Story of Interest", "story", "/stories/", function(moodObject) {
+    axios.get(this.endpoint + moodObject.codename)
+      .then(response => {
+        let storyTitle = response.data["title"];
+        let storyLink = response.data["uri"];
+        let storyImage = response.data["img_uri"];
+        this.results = `<h3 class="story-title"><a href="${storyLink}">${storyTitle}</a></h3><br /><img src=${storyImage} alt=${moodObject.codename} />`;
+      })
+      .catch(error => {
+        console.log(error)
+        this.results = ERROR_TEMPLATE;
+      });
+    return this.results;
+  })
   // new FeedObject("Twitter Analysis", "twitter", "/twitter/", function(moodObject) {
   //   axios.get(this.endpoint + moodObject.codename)
   //     .then(response => {
@@ -117,8 +131,8 @@ const feeds = [
 ];
 
 const moods = [
-  new Mood("Sad", "sadness", ["#064C96","#0A7BA1"], store.assignMoodId()),
   new Mood("Joyful", "joy", ["#F0D351", "#38E8F5"], store.assignMoodId()),
+  new Mood("Sad", "sadness", ["#064C96","#0A7BA1"], store.assignMoodId()),
   new Mood("Angry", "anger",  ["#E0000B", "#631299"], store.assignMoodId()),
   new Mood("Scary", "fear", ["#A8161D", "#1C0307"], store.assignMoodId()),
   new Mood("Surprising", "surprise", ["#62A9D9", "#8DE31E"], store.assignMoodId())

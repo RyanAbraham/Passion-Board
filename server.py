@@ -3,8 +3,10 @@ import modules.reddit as red
 import modules.spotify as spot
 import modules.azure as az
 import modules.twitter as twit
+import modules.stories as sto
 
 app = Flask(__name__)
+route_val = {}
 
 @app.route("/")
 def index():
@@ -12,20 +14,40 @@ def index():
 
 @app.route("/reddit/<subreddit>/<emotion>")
 def reddit(subreddit, emotion):
-    return red.fetch_posts(subreddit, emotion)
+    if('reddit' not in route_val):
+        route_val['reddit'] = [emotion, red.fetch_posts(subreddit, emotion)]
+    elif(route_val['reddit'][0] != emotion):
+        route_val['reddit'] = [emotion, red.fetch_posts(subreddit, emotion)]
+    return route_val['reddit'][1]
 
 @app.route("/spotify/<emotion>")
 def spotify(emotion):
-    uri = spot.fetch_playlist_uri(emotion)
-    return uri
+    if('spotify' not in route_val):
+        route_val['spotify'] = [emotion, spot.fetch_playlist_uri(emotion)]
+    elif(route_val['spotify'][0] != emotion):
+        route_val['spotify'] = [emotion, spot.fetch_playlist_uri(emotion)]
+    return route_val['spotify'][1]
 
 @app.route("/azure/<emotion>")
 def azure(emotion):
-    return az.get_image_uri(emotion)
+    if('azure' not in route_val):
+        route_val['azure'] = [emotion, az.get_image_uri(emotion)]
+    elif(route_val['azure'][0] != emotion):
+        route_val['azure'] = [emotion, az.get_image_uri(emotion)]
+    return route_val['azure'][1]
+
 
 @app.route("/twitter/<emotion>")
 def twitter(emotion):
     return "unimplemented"
+
+@app.route("/stories/<emotion>")
+def story(emotion):
+    if('stories' not in route_val):
+        route_val['stories'] = [emotion, sto.get_story_uri(emotion)]
+    elif(route_val['stories'][0] != emotion):
+        route_val['stories'] = [emotion, sto.get_story_uri(emotion)]
+    return route_val['stories'][1]
 
 @app.route("/scripts/main.js")
 def mainjs():
