@@ -2,6 +2,7 @@ from flask import Flask, request
 import modules.reddit as red
 import modules.spotify as spot
 import modules.azure as az
+import modules.twitter as twit
 
 app = Flask(__name__)
 
@@ -20,7 +21,11 @@ def spotify(emotion):
 
 @app.route("/azure/<emotion>")
 def azure(emotion):
-    return az.fetch_search_result(emotion)
+    return az.get_image_uri(emotion)
+
+@app.route("/twitter/<emotion>")
+def twitter(emotion):
+    return "unimplemented"
 
 @app.route("/scripts/main.js")
 def mainjs():

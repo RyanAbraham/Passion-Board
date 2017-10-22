@@ -13,9 +13,12 @@ import indicoio
 # access_token = '...'
 # access_secret = '...'
 # indicoio.config.api_key = '...'
-search_term = "happiness"
+# search_term = "happiness"
 
 def getHappyTexts():
+	index = 0
+	search_results = {}
+
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_secret)
 
@@ -29,11 +32,9 @@ def getHappyTexts():
 
 	# uses indico's emotion analyzer to return any "happy" tweets as text
 	for tweet in search_results:
+
 	    if (indicoio.emotion(tweet.text).get('joy') > 0.55):
-	    	print(tweet.text)
+	    	index += 1
+	    	search_results[index] = tweet.text
 
-def main():
-	getHappyTexts()
-
-if __name__ ==  "__main__":
-    main()
+	return json.dumps(search_results)
