@@ -7,29 +7,21 @@ from tweepy.streaming import StreamListener
 import json
 
 #Use your keys
-consumer_key = 'cq00sjw8Q8nztOr28zAO9s17U'
-consumer_secret = 'Qn4SThOpoTQHGAx08YlzY3kuPMxK5awnTl6c5b8R3Zau6uLeai'
-access_token = '720812508626493441-7Mewjcepbtr3f7TxYpsR8mJ1ANn3mQ8'
-access_secret = 'A8BRdvBpPffqC4TNSDK0ZVmqtohqhuuE6s46asrLl7TYb'
+consumer_key = '...'
+consumer_secret = '...'
+access_token = '...'
+access_secret = '...'
+search_term = "happiness"
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 
-# class TweetListener(StreamListener):
-#     def on_status(self, status):
-#       print("tweet " + str(status.created_at) +"\n")
-#       print(status.text + "\n")
-#       # You can dump your tweets into Json File, or load it to your database
-
-# stream = Stream(auth, TweetListener(), secure=True, )
-# t = u"#python" # You can use different hashtags 
-# stream.filter(track=[t])
-
 api = tweepy.API(auth)
 
 # searches count num of tweets containing string q
-search_results = api.search(q="Hello", count=3)
-public_tweets = api.home_timeline()
+search_results = api.search(q=search_term, count=3)
+# public_tweets = api.home_timeline()
 
+print("Showing tweets with keyphrase...")
 for tweet in search_results:
     print(tweet.text)
