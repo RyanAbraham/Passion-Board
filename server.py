@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request
 import modules.reddit as red
 
 app = Flask(__name__)
@@ -9,7 +9,11 @@ def index():
 
 @app.route("/reddit/<subreddit>/<emotion>")
 def reddit(subreddit, emotion):
-    return red.fetchposts(subreddit, emotion)
+    return red.fetch_posts(subreddit, emotion)
+
+@app.route("/spotify/<emotion>")
+def spotify(emotion):
+    return spotify.fetch_playlist_uri(emotion)
 
 @app.route("/scripts/main.js")
 def mainjs():
@@ -29,3 +33,4 @@ def maincss():
 
 if __name__ == "__main__":
     app.run()
+
