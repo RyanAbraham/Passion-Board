@@ -1,12 +1,9 @@
-let lastFeedId = 0;
-
 class FeedObject {
-  constructor(title, endpoint, callbackMethod) {
+  constructor(title, endpoint, callbackMethod, id) {
     this.title = title;
     this.endpoint = endpoint;
     this.callbackMethod = callbackMethod;
-    this.id = lastFeedId;
-    lastFeedId++;
+    this.id = id;
   }
   content() {
     return this.callbackMethod(this.endpoint, store.getCurrentMood());
@@ -21,28 +18,13 @@ class Mood {
   }
 }
 
-const feeds = [
-  new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
-    return `<h1> ${moodObject.name} memes </h1>`;
-  }),
-  new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
-    return `<h1> azure ${moodObject.name} memes </h1>`;
-  })
-];
-
-const moods = [
-  new Mood("Sad", ["#064C96","#0A7BA1"], 0),
-  new Mood("Happy", ["#2ecc71", "#e67e22"], 1),
-  new Mood("Angry", ["#e74c3c", "#d35400"], 2),
-];
-
 let store = {
   debug: true,
   state: {
-    currentMood: moods[0],
+    currentMood: null,
     currentMoodIndex: 0,
-    moods: moods,
-    feeds: feeds
+    lastMoodId: 0,
+    lastFeedId: 0,
   },
   getCurrentMood() {
     return this.state.currentMood;
@@ -59,8 +41,44 @@ let store = {
     if (this.debug) console.log("Setting current mood index to " + number);
     this.state.currentMoodIndex = number;
     this.setCurrentMoodByIndex(this.state.currentMoodIndex);
+  },
+  assignMoodId() {
+    if (this.debug) console.log("Assigning Mood Id " + this.state.lastMoodId);
+    let givenId = this.state.lastMoodId;
+    this.state.lastMoodId++;
+    return givenId;
+  },
+  assignFeedId() {
+    if (this.debug) console.log("Assigning Feed Id " + this.state.lastFeedId);
+    let givenId = this.state.lastFeedId;
+    this.state.lastFeedId++;
+    return givenId;
   }
 }
+
+const feeds = [
+  new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
+    return `<h1> ${moodObject.name} memes </h1>`;
+  }),
+  new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
+    return `<h1> azure ${moodObject.name} memes </h1>`;
+  }),
+  new FeedObject("Spotify Analysis", "/spotify/", function(endpoint, moodObject) {
+    return `<h1> Spotify ${moodObject.name} songs </h1>`;
+  })
+];
+
+const moods = [
+  new Mood("Sad", ["#064C96","#0A7BA1"], store.assignMoodId()),
+  new Mood("Joyful", ["#F0D351", "#38E8F5"], store.assignMoodId()),
+  new Mood("Angry", ["#E0000B", "#631299"], store.assignMoodId()),
+  new Mood("Scary", ["#A8161D", "#1C0307"], store.assignMoodId()),
+  new Mood("Surprising", ["#62A9D9", "#8DE31E"], store.assignMoodId())
+];
+
+store.state.currentMood = moods[0];
+store.state.moods = moods;
+store.state.feeds = feeds;
 
 Vue.component('header-bar', {
   template: `<div id="header-bar">
