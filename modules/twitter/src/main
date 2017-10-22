@@ -33,6 +33,8 @@ search_results = api.search(q=search_term, count=30)
 # public_tweets = api.home_timeline()
 
 print("Showing tweets with keyphrase...")
+
+# uses indico's emotion analyzer to return any "happy" tweets as text
 for tweet in search_results:
     if (indicoio.emotion(tweet.text).get('joy') > 0.55):
     	print(tweet.text)
