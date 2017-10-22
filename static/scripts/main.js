@@ -66,7 +66,10 @@ const feeds = [
   new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
     axios.get(endpoint + "all/" + moodObject.codename)
       .then(response => {
-        this.results = SUCCESS_TEMPLATE;
+        let firstSubmission = response["submissions"][0];
+        let submissionTitle = firstSubmission["title"];
+        let submissionLink = firstSubmission["shortlink"];
+        this.results = `<h3 class="reddit-submission-title"><a href="${submissionLink}">${submissionTitle}</a></h3>`;
       })
       .catch(error => {
         console.log(error);
