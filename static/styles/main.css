@@ -57,3 +57,7 @@ div.feed-content {
   padding: 1vw;
   border-radius: 5px;
 }
+
+div.feeds {
+  display: flex;
+}

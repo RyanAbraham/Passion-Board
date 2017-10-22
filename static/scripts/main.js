@@ -26,6 +26,7 @@ let store = {
     currentMoodIndex: 0,
     lastMoodId: 0,
     lastFeedId: 0,
+    tempFeedTemplate: ``,
   },
   getCurrentMood() {
     return this.state.currentMood;
@@ -57,20 +58,43 @@ let store = {
   }
 }
 
+const SUCCESS_TEMPLATE = `<p> Winrar </p>`;
+const ERROR_TEMPLATE = `<p> The analysis server could not be reached at this time. </p>`;
+const SPOTIFY_TEMPLATE = `<iframe src="https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWXLeA8Omikj7" height="80px" frameborder="0" allowtransparency="true"></iframe>`;
+
 const feeds = [
   new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
     axios.get(endpoint + "all/" + moodObject.codename)
       .then(response => {
-        console.log(response);
+        store.state.tempFeedTemplate = SUCCESS_TEMPLATE;
       })
-      .catch(error => { console.log(error) });
-    return `<h1> ${moodObject.name} memes </h1>`;
+      .catch(error => {
+        console.log(error);
+        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+      });
+      return store.state.tempFeedTemplate;
   }),
   new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
-    return `<h1> azure ${moodObject.name} memes </h1>`;
+    axios.get(endpoint + moodObject.codename)
+      .then(response => {
+        store.state.tempFeedTemplate = SUCCESS_TEMPLATE;
+      })
+      .catch(error => {
+        console.log(error);
+        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+      })
+    return store.state.tempFeedTemplate;
   }),
   new FeedObject("Spotify Analysis", "/spotify/", function(endpoint, moodObject) {
-    return `<h1> Spotify ${moodObject.name} songs </h1>`;
+    axios.get(endpoint + moodObject.codename)
+      .then(response => {
+        store.state.tempFeedTemplate = SPOTIFY_TEMPLATE;
+      })
+      .catch(error => {
+        console.log(error)
+        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+      })
+    return store.state.tempFeedTemplate;
   })
 ];
 
@@ -146,7 +170,7 @@ Vue.component('feed-box', {
 });
 
 Vue.component('feeds', {
-  template: `<div><feed-box v-for="feed in store.state.feeds" :feedObject="feed" :key="feed.id"></feed-box></div>`,
+  template: `<div class="feeds"><feed-box v-for="feed in store.state.feeds" :feedObject="feed" :key="feed.id"></feed-box></div>`,
   data: function() {
     return { store: store };
   }
