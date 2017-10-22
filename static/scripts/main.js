@@ -7,7 +7,7 @@ class FeedObject {
     this.results = ``;
   }
   content() {
-    return this.callbackMethod(this.endpoint, store.getCurrentMood());
+    return this.callbackMethod(store.getCurrentMood());
   }
 }
 
@@ -63,8 +63,8 @@ const ERROR_TEMPLATE = `<p> The analysis server could not be reached at this tim
 const SPOTIFY_TEMPLATE = `<iframe src="https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWXLeA8Omikj7" height="80px" frameborder="0" allowtransparency="true"></iframe>`;
 
 const feeds = [
-  new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
-    axios.get(endpoint + "all/" + moodObject.codename)
+  new FeedObject("Reddit Analysis", "/reddit/", function(moodObject) {
+    axios.get(this.endpoint + "dankmemes/" + moodObject.codename)
       .then(response => {
         let firstSubmission = response["submissions"][0];
         let submissionTitle = firstSubmission["title"];
@@ -77,26 +77,37 @@ const feeds = [
       });
       return this.results;
   }),
-  new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
-    axios.get(endpoint + moodObject.codename)
+  new FeedObject("Azure Analysis", "/azure/", function(moodObject) {
+    axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         this.results = SUCCESS_TEMPLATE;
       })
       .catch(error => {
         console.log(error);
         this.results = ERROR_TEMPLATE;
-      })
+      });
     return this.results;
   }),
-  new FeedObject("Spotify Analysis", "/spotify/", function(endpoint, moodObject) {
-    axios.get(endpoint + moodObject.codename)
+  new FeedObject("Spotify Analysis", "/spotify/", function(moodObject) {
+    axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         this.results = SPOTIFY_TEMPLATE;
       })
       .catch(error => {
         console.log(error)
         this.results = ERROR_TEMPLATE;
+      });
+    return this.results;
+  }),
+  new FeedObject("Twitter Analysis", "/twitter/", function(moodObject) {
+    axios.get(this.endpoint + moodObject.codename)
+      .then(response => {
+        this.results = SUCCESS_TEMPLATE;
       })
+      .catch(error => {
+        console.log(error);
+        this.results = ERROR_TEMPLATE;
+      });
     return this.results;
   })
 ];

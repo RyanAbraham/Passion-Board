@@ -60,4 +60,5 @@ div.feed-content {
 
 div.feeds {
   display: flex;
+  flex-wrap: wrap;
 }
