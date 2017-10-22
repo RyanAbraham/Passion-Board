@@ -4,6 +4,7 @@ class FeedObject {
     this.endpoint = endpoint;
     this.callbackMethod = callbackMethod;
     this.id = id;
+    this.results = ``;
   }
   content() {
     return this.callbackMethod(this.endpoint, store.getCurrentMood());
@@ -25,8 +26,7 @@ let store = {
     currentMood: null,
     currentMoodIndex: 0,
     lastMoodId: 0,
-    lastFeedId: 0,
-    tempFeedTemplate: ``,
+    lastFeedId: 0
   },
   getCurrentMood() {
     return this.state.currentMood;
@@ -66,35 +66,35 @@ const feeds = [
   new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
     axios.get(endpoint + "all/" + moodObject.codename)
       .then(response => {
-        store.state.tempFeedTemplate = SUCCESS_TEMPLATE;
+        this.results = SUCCESS_TEMPLATE;
       })
       .catch(error => {
         console.log(error);
-        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+        this.results = ERROR_TEMPLATE;
       });
-      return store.state.tempFeedTemplate;
+      return this.results;
   }),
   new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
     axios.get(endpoint + moodObject.codename)
       .then(response => {
-        store.state.tempFeedTemplate = SUCCESS_TEMPLATE;
+        this.results = SUCCESS_TEMPLATE;
       })
       .catch(error => {
         console.log(error);
-        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+        this.results = ERROR_TEMPLATE;
       })
-    return store.state.tempFeedTemplate;
+    return this.results;
   }),
   new FeedObject("Spotify Analysis", "/spotify/", function(endpoint, moodObject) {
     axios.get(endpoint + moodObject.codename)
       .then(response => {
-        store.state.tempFeedTemplate = SPOTIFY_TEMPLATE;
+        this.results = SPOTIFY_TEMPLATE;
       })
       .catch(error => {
         console.log(error)
-        store.state.tempFeedTemplate = ERROR_TEMPLATE;
+        this.results = ERROR_TEMPLATE;
       })
-    return store.state.tempFeedTemplate;
+    return this.results;
   })
 ];
 
