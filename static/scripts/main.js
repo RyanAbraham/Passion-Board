@@ -81,7 +81,8 @@ const feeds = [
   new FeedObject("Azure Analysis", "azure", "/azure/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
-        this.results = SUCCESS_TEMPLATE;
+        let imageUrl = response.data["uri"];
+        this.results = `<img src=${imageUrl} alt=${moodObject.codename} />`;
       })
       .catch(error => {
         console.log(error);
@@ -92,7 +93,6 @@ const feeds = [
   new FeedObject("Spotify Analysis", "spotify", "/spotify/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
-        console.log(response);
         let responseUri = response.data["uri"];
         this.results = `<iframe src="${responseUri}" height="80px" frameborder="0" allowtransparency="true"></iframe>`
       })
@@ -102,17 +102,18 @@ const feeds = [
       });
     return this.results;
   }),
-  new FeedObject("Twitter Analysis", "twitter", "/twitter/", function(moodObject) {
-    axios.get(this.endpoint + moodObject.codename)
-      .then(response => {
-        this.results = SUCCESS_TEMPLATE;
-      })
-      .catch(error => {
-        console.log(error);
-        this.results = ERROR_TEMPLATE;
-      });
-    return this.results;
-  })
+  // new FeedObject("Twitter Analysis", "twitter", "/twitter/", function(moodObject) {
+  //   axios.get(this.endpoint + moodObject.codename)
+  //     .then(response => {
+  //       console.log(response);
+  //       this.results = SUCCESS_TEMPLATE;
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       this.results = ERROR_TEMPLATE;
+  //     });
+  //   return this.results;
+  // })
 ];
 
 const moods = [
