@@ -1,6 +1,7 @@
 class FeedObject {
-  constructor(title, endpoint, callbackMethod, id) {
+  constructor(title, classname, endpoint, callbackMethod, id) {
     this.title = title;
+    this.classname = classname;
     this.endpoint = endpoint;
     this.callbackMethod = callbackMethod;
     this.id = id;
@@ -63,10 +64,10 @@ const ERROR_TEMPLATE = `<p> The analysis server could not be reached at this tim
 const SPOTIFY_TEMPLATE = `<iframe src="https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWXLeA8Omikj7" height="80px" frameborder="0" allowtransparency="true"></iframe>`;
 
 const feeds = [
-  new FeedObject("Reddit Analysis", "/reddit/", function(moodObject) {
-    axios.get(this.endpoint + "dankmemes/" + moodObject.codename)
+  new FeedObject("Reddit Analysis", "reddit", "/reddit/", function(moodObject) {
+    axios.get(this.endpoint + "all/" + moodObject.codename)
       .then(response => {
-        let firstSubmission = response["submissions"][0];
+        let firstSubmission = response.data["submissions"][0];
         let submissionTitle = firstSubmission["title"];
         let submissionLink = firstSubmission["shortlink"];
         this.results = `<h3 class="reddit-submission-title"><a href="${submissionLink}">${submissionTitle}</a></h3>`;
@@ -77,7 +78,7 @@ const feeds = [
       });
       return this.results;
   }),
-  new FeedObject("Azure Analysis", "/azure/", function(moodObject) {
+  new FeedObject("Azure Analysis", "azure", "/azure/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         this.results = SUCCESS_TEMPLATE;
@@ -88,10 +89,12 @@ const feeds = [
       });
     return this.results;
   }),
-  new FeedObject("Spotify Analysis", "/spotify/", function(moodObject) {
+  new FeedObject("Spotify Analysis", "spotify", "/spotify/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
-        this.results = SPOTIFY_TEMPLATE;
+        console.log(response);
+        let responseUri = response.data["uri"];
+        this.results = `<iframe src="${responseUri}" height="80px" frameborder="0" allowtransparency="true"></iframe>`
       })
       .catch(error => {
         console.log(error)
@@ -99,7 +102,7 @@ const feeds = [
       });
     return this.results;
   }),
-  new FeedObject("Twitter Analysis", "/twitter/", function(moodObject) {
+  new FeedObject("Twitter Analysis", "twitter", "/twitter/", function(moodObject) {
     axios.get(this.endpoint + moodObject.codename)
       .then(response => {
         this.results = SUCCESS_TEMPLATE;
@@ -167,7 +170,7 @@ Vue.component('gradient-defs', {
 
 Vue.component('feed-box', {
   props: ['feedObject'],
-  template: `<div class="feed-box">
+  template: `<div :class="'feed-box ' + feedObject.classname">
                <h3 class="feed-title"> {{ feedObject.title }} </h3>
                <div class="feed-content" v-html="computedContent">
                  {{ computedContent }}

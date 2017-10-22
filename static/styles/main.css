@@ -9,6 +9,10 @@ html, body {
   color: rgba(255,255,255,0.8);
 }
 
+a {
+  color: inherit;
+}
+
 div#header-bar {
   position: relative;
   top: 0;
@@ -48,14 +52,24 @@ div.feed-box {
   display: inline-block;
   margin: 0.5vw;
 }
+
 h3.feed-title {
   margin: 1vw 1vh;
   margin-top: 0;
 }
+
 div.feed-content {
   background-color: rgba(0,0,0,0.21);
   padding: 1vw;
   border-radius: 5px;
+}
+
+div.reddit {
+  max-width: 45vw;
+}
+
+div.spotify, div.twitter, div.azure {
+  max-width: 25vw;
 }
 
 div.feeds {
