@@ -15,26 +15,25 @@ import indicoio
 # indicoio.config.api_key = '...'
 search_term = "happiness"
 
-# #Use your keys
-# Delete when publishing
-consumer_key = 'cq00sjw8Q8nztOr28zAO9s17U'
-consumer_secret = 'Qn4SThOpoTQHGAx08YlzY3kuPMxK5awnTl6c5b8R3Zau6uLeai'
-access_token = '720812508626493441-7Mewjcepbtr3f7TxYpsR8mJ1ANn3mQ8'
-access_secret = 'A8BRdvBpPffqC4TNSDK0ZVmqtohqhuuE6s46asrLl7TYb'
-indicoio.config.api_key = '1c4fca223f21c36c1b4074b5a62ec975'
+def getHappyTexts():
+	auth = OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_secret)
 
-auth = OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_secret)
+	api = tweepy.API(auth)
 
-api = tweepy.API(auth)
+	# searches count num of tweets containing string q
+	search_results = api.search(q=search_term, count=30)
+	# public_tweets = api.home_timeline()
 
-# searches count num of tweets containing string q
-search_results = api.search(q=search_term, count=30)
-# public_tweets = api.home_timeline()
+	print("Showing tweets with keyphrase...")
 
-print("Showing tweets with keyphrase...")
+	# uses indico's emotion analyzer to return any "happy" tweets as text
+	for tweet in search_results:
+	    if (indicoio.emotion(tweet.text).get('joy') > 0.55):
+	    	print(tweet.text)
 
-# uses indico's emotion analyzer to return any "happy" tweets as text
-for tweet in search_results:
-    if (indicoio.emotion(tweet.text).get('joy') > 0.55):
-    	print(tweet.text)
+def main():
+	getHappyTexts()
+
+if __name__ ==  "__main__":
+    main()
