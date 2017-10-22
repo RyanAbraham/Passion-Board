@@ -15,9 +15,7 @@ def reddit(subreddit, emotion):
 
 @app.route("/spotify/<emotion>")
 def spotify(emotion):
-    #uri = spot.fetch_playlist_uri(emotion)
-    uri = ""
-    print(uri)
+    uri = spot.fetch_playlist_uri(emotion)
     return uri
 
 @app.route("/azure/<emotion>")
