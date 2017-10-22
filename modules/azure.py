@@ -1,11 +1,15 @@
 # Utilizes Azure Cloud WebSearch API to generate n number of URL's for images that have positive/happy connotations.
 
 import http.client, urllib.parse, json
+import json
 
 host = "api.cognitive.microsoft.com"
 path = "/bing/v7.0/search"
 filter = "&responseFilter=images" #search filters
 term = "happiness"
+
+def fetch_search_result(emotion):
+    return(json.dumps({}))
 
 # sample Sad dictionary
 sad_dict = {

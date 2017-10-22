@@ -1,5 +1,7 @@
 from flask import Flask, request
 import modules.reddit as red
+import modules.spotify as spot
+import modules.azure as az
 
 app = Flask(__name__)
 
@@ -13,7 +15,11 @@ def reddit(subreddit, emotion):
 
 @app.route("/spotify/<emotion>")
 def spotify(emotion):
-    return spotify.fetch_playlist_uri(emotion)
+    return spot.fetch_playlist_uri(emotion)
+
+@app.route("/azure/<emotion>")
+def azure(emotion):
+    return az.fetch_search_result(emotion)
 
 @app.route("/scripts/main.js")
 def mainjs():
