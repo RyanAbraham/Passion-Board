@@ -72,6 +72,14 @@ div.spotify, div.twitter, div.azure {
   max-width: 25vw;
 }
 
+div.azure {
+  overflow: auto;
+}
+
+div.azure img {
+  width: 100%;
+}
+
 div.feeds {
   display: flex;
   flex-wrap: wrap;
