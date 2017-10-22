@@ -6,7 +6,7 @@ import modules.config as config
 from collections import Counter
 
 indicoio.config.api_key = config.indico_api_key
-MAX_POSTS, MAX_COMMENTS = 5, 3
+MAX_POSTS, MAX_COMMENTS = 10, 5
 
 def fetch_posts(subreddit, target_emotion):
     submissions = {}

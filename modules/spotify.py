@@ -3,20 +3,20 @@ import random
 
 playlist_uris = {
     "joy": [
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DXdPec7aLTmlC",
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWYBO1MoTDhZI",
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX7KNKjOK0o75"
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DXdPec7aLTmlC",
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWYBO1MoTDhZI",
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX7KNKjOK0o75"
     ], "sadness": [
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX3YSRoSdA634",
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX2pSTOxoPbx9",
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWSqBruwoIXkA"
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX3YSRoSdA634",
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX2pSTOxoPbx9",
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DWSqBruwoIXkA"
    ], "anger": [
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX1tyCD9QhIWF"
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX1tyCD9QhIWF"
     ], "fear": [
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DXa2PsvJSPnPf"
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DXa2PsvJSPnPf"
     ], "surprise": [
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX1uG5byNIgDA",
-        "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX56qfiUZBncF"
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX1uG5byNIgDA",
+        "https://open.spotify.com/embed/user/spotify/playlist/37i9dQZF1DX56qfiUZBncF"
     ]
 }
 
