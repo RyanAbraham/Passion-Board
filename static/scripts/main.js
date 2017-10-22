@@ -11,8 +11,9 @@ class FeedObject {
 }
 
 class Mood {
-  constructor(name, colors, id) {
+  constructor(name, codename, colors, id) {
     this.name = name;
+    this.codename = codename;
     this.colors = colors;
     this.id = id;
   }
@@ -58,6 +59,11 @@ let store = {
 
 const feeds = [
   new FeedObject("Reddit Analysis", "/reddit/", function(endpoint, moodObject) {
+    axios.get(endpoint + "all/" + moodObject.codename)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => { console.log(error) });
     return `<h1> ${moodObject.name} memes </h1>`;
   }),
   new FeedObject("Azure Analysis", "/azure/", function(endpoint, moodObject) {
@@ -69,11 +75,11 @@ const feeds = [
 ];
 
 const moods = [
-  new Mood("Sad", ["#064C96","#0A7BA1"], store.assignMoodId()),
-  new Mood("Joyful", ["#F0D351", "#38E8F5"], store.assignMoodId()),
-  new Mood("Angry", ["#E0000B", "#631299"], store.assignMoodId()),
-  new Mood("Scary", ["#A8161D", "#1C0307"], store.assignMoodId()),
-  new Mood("Surprising", ["#62A9D9", "#8DE31E"], store.assignMoodId())
+  new Mood("Sad", "sadness", ["#064C96","#0A7BA1"], store.assignMoodId()),
+  new Mood("Joyful", "joy", ["#F0D351", "#38E8F5"], store.assignMoodId()),
+  new Mood("Angry", "anger",  ["#E0000B", "#631299"], store.assignMoodId()),
+  new Mood("Scary", "fear", ["#A8161D", "#1C0307"], store.assignMoodId()),
+  new Mood("Surprising", "surprise", ["#62A9D9", "#8DE31E"], store.assignMoodId())
 ];
 
 store.state.currentMood = moods[0];

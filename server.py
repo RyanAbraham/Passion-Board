@@ -19,10 +19,13 @@ def mainjs():
 def vuejs():
     return app.send_static_file("scripts/vue.js")
 
+@app.route("/scripts/axios.min.js")
+def axiosjs():
+    return app.send_static_file("scripts/axios.min.js")
+
 @app.route("/styles/main.css")
 def maincss():
     return app.send_static_file("styles/main.css")
 
 if __name__ == "__main__":
     app.run()
-
